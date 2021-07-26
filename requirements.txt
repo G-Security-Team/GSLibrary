@@ -1,0 +1,5 @@
+django==2.0
+requests
+Markdown
+django-mdeditor
+pymysql
