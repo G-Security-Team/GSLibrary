@@ -1,0 +1,201 @@
+{% load static %}
+ <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>漏洞知识库-添加栏目</title>
+
+	<!-- ================= Favicon ================== -->
+    <!-- Standard -->
+    <link rel="shortcut icon" href="http://placehold.it/64.png/000/fff">
+    <!-- Retina iPad Touch Icon-->
+    <link rel="apple-touch-icon" sizes="144x144" href="http://placehold.it/144.png/000/fff">
+    <!-- Retina iPhone Touch Icon-->
+    <link rel="apple-touch-icon" sizes="114x114" href="http://placehold.it/114.png/000/fff">
+    <!-- Standard iPad Touch Icon-->
+    <link rel="apple-touch-icon" sizes="72x72" href="http://placehold.it/72.png/000/fff">
+    <!-- Standard iPhone Touch Icon-->
+    <link rel="apple-touch-icon" sizes="57x57" href="http://placehold.it/57.png/000/fff">
+
+	<!-- Styles -->
+    <link href="{% static 'assets/fontAwesome/css/fontawesome-all.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/lib/themify-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/lib/mmc-chat.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/css/lib/sidebar.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/lib/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/lib/nestable/nestable.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/lib/sweetalert/sweetalert.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/lib/nixon.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static "css/code.css" %}">
+</head>
+
+<body>
+
+    <div class="sidebar sidebar-hide-to-small sidebar-shrink sidebar-gestures">
+        <div class="nano">
+            <div class="nano-content">
+                <ul>
+                    <li><a href="/Gr33kLibrary/main/"><i class="ti-home"></i>&nbsp;&nbsp;首页</a></li>
+                    <li><a href="/Gr33kLibrary/library/"><i class="ti-harddrives"></i>&nbsp;&nbsp;文库</a></li>
+                    <li><a href="/Gr33kLibrary/myarticle/1/"><i class="ti-save-alt"></i>&nbsp;&nbsp;我的文章</a></li>
+                    <li><a href="/Gr33kLibrary/mycollect/1/"><i class="ti-star"></i>&nbsp;&nbsp;我的收藏</a></li>
+                    <li><a href="/Gr33kLibrary/classify_manage/"><i class="ti-tag"></i>&nbsp;&nbsp;分类管理</a></li>
+                    <li><a href="/Gr33kLibrary/tools_manage/"><i class="ti-import"></i>&nbsp;&nbsp;代码&工具管理</a></li>
+                    <li><a href="/Gr33kLibrary/update_log/"><i class="ti-folder"></i>&nbsp;&nbsp;更新日志管理</a></li>
+                    <li><a href="/Gr33kLibrary/my_setting/"><i class="ti-settings"></i>&nbsp;&nbsp;我的设置</a></li>
+                    <li><a href="/Gr33kLibrary/invitation_code_manage/"><i class="ti-vimeo"></i>&nbsp;&nbsp;邀请码管理</a></li>
+                    {% if current_user.username == "Gr33k" %}
+                        <li><a href="/Gr33kLibrary/verify/"><i class="ti-shield"></i>&nbsp;&nbsp;审核文章</a></li>
+                        <li><a href="/Gr33kLibrary/user_manage/1/"><i class="ti-user"></i>&nbsp;&nbsp;用户管理</a></li>
+                    {% endif %}
+                <li><a href="/Gr33kLibrary/about_me/"><i class="ti-hand-stop"></i>&nbsp;&nbsp;关于我们</a></li>
+                </ul>
+            </div>
+        </div>
+    </div><!-- /# sidebar -->
+
+
+
+
+    <div class="header">
+        <div class="pull-left">
+                        <div class="logo">
+                <a href="/Gr33kLibrary/main/">
+                    <img id="logoImg"
+                    src="{% static 'logo/logo.png' %}"
+                    data-logo_big="{% static 'logo/logo.png' %}"
+                    data-logo_small="{% static 'logo/logoSmall.png' %}"
+                    alt="Nixon" />
+                </a>
+            </div>
+            <div class="hamburger sidebar-toggle">
+                <span class="ti-menu"></span>
+            </div>
+        </div>
+
+        <div class="pull-right p-r-15">
+            <ul>
+
+                <li class="header-icon dib"><img class="avatar-img" src="{% static 'assets/images/avatar/1.jpg' %}" alt="" /> <span class="user-avatar">{% if current_user %}{{ current_user.username }}{% else %}未登录{% endif %}<i class="ti-angle-down f-s-10"></i></span>
+                    <div class="drop-down dropdown-profile">
+                        <div class="dropdown-content-body">
+                            <ul>
+                                {% if current_user %}
+                                    <li><a href="/Gr33kLibrary/change_password/"><i class="ti-loop"></i> <span>修改密码</span></a></li>
+                                <li><a href="/Gr33kLibrary/logout/"><i class="ti-power-off"></i> <span>退出</span></a></li>
+                                {% else %}
+                                <li><a href="/Gr33kLibrary/login/"><i class="ti-power-off"></i> <span>登录</span></a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+    <!-- END chat Sidebar-->
+
+    <div class="content-wrap">
+        <div class="main">
+            <div class="container-fluid">
+                <div class="main-content">
+
+                    <div class="row">
+
+                        <div class="col-lg-12">
+                            <div class="card alert">
+                                <div class="card-header">
+                                    <h4>添加栏目</h4>
+                                </div>
+
+                                <div class="card-body">
+
+
+                                    <div class="basic-form">
+                                        <form action="/Gr33kLibrary/add_classify/" method="post">
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                                <p class="text-muted m-b-15 f-s-12"><code>栏目名称</code></p>
+                                                <input type="text" class="form-control input-default " placeholder="在此输入栏目名称" name="classify_name">
+                                            </div>
+                                            <div align="right"><input type="submit" class="btn btn-primary m-b-10 m-l-5" value="创建"></div>
+                                            <center><font color="red">{{ info }}</font></center>
+                                        </form>
+                                    </div>
+
+
+
+                                </div>
+							</div><!-- /# card -->
+						</div><!-- /# column -->
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+<script>
+    function create_lisence() {
+        var use_time = $('#use_time').val();
+        var permission = $('#permission').val();
+        var c_mac = $('#c_mac').val();
+        var c_salt = $('#c_salt').val();
+        var encrytxt = $('#encrytxt').val();
+         myajax.post({
+            'url':'/create_lisence/',
+            'dataType':'json',
+            'data':{
+                'c_salt':c_salt,
+                'c_mac':c_mac,
+                'permission':permission,
+                'use_time':use_time,
+                'encrytxt':encrytxt,
+            },
+            'success':function (data) {
+               window.location.href="/download_gr3/"
+            },
+            'fail':function (error) {
+                alert("未知错误！");
+            }
+        });
+     }
+</script>
+
+    <script src="{% static 'assets/js/lib/jquery.min.js' %}"></script><!-- jquery vendor -->
+    <script src="{% static 'assets/js/lib/jquery.nanoscroller.min.js' %}"></script><!-- nano scroller -->
+    <script src="{% static 'ajax.js' %}"></script>
+    <script src="{% static 'assets/js/lib/sidebar.js' %}"></script><!-- sidebar -->
+    <script src="{% static 'assets/js/lib/bootstrap.min.js' %}"></script><!-- bootstrap -->
+    <script src="{% static 'assets/js/lib/nestable/jquery.nestable.js' %}"></script><!-- scripit init-->
+    <script src="{% static 'assets/js/lib/nestable/nestable.init.js' %}"></script><!-- scripit init-->
+    <script src="{% static 'assets/js/lib/sweetalert/sweetalert.min.js' %}"></script><!-- scripit init-->
+    <script src="{% static 'assets/js/lib/sweetalert/sweetalert.init.js' %}"></script><!-- scripit init-->
+    <script src="{% static 'assets/js/scripts.js' %}"></script><!-- scripit init-->
+
+
+
+
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,294 @@
+{% load static %}
+ <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>漏洞知识库-添加栏目</title>
+
+	<!-- ================= Favicon ================== -->
+    <!-- Standard -->
+    <link rel="shortcut icon" href="http://placehold.it/64.png/000/fff">
+    <!-- Retina iPad Touch Icon-->
+    <link rel="apple-touch-icon" sizes="144x144" href="http://placehold.it/144.png/000/fff">
+    <!-- Retina iPhone Touch Icon-->
+    <link rel="apple-touch-icon" sizes="114x114" href="http://placehold.it/114.png/000/fff">
+    <!-- Standard iPad Touch Icon-->
+    <link rel="apple-touch-icon" sizes="72x72" href="http://placehold.it/72.png/000/fff">
+    <!-- Standard iPhone Touch Icon-->
+    <link rel="apple-touch-icon" sizes="57x57" href="http://placehold.it/57.png/000/fff">
+
+	<!-- Styles -->
+    <link href="/static/mdeditor/css/editormd.css" type="text/css" media="all" rel="stylesheet">
+    <script type="text/javascript" src="/static/mdeditor/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/mdeditor/js/editormd.min.js"></script>
+    <link href="{% static 'assets/fontAwesome/css/fontawesome-all.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/lib/themify-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/lib/sidebar.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/lib/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/lib/nestable/nestable.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/lib/sweetalert/sweetalert.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/lib/nixon.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static "css/code.css" %}">
+
+
+    <style type="text/css">
+    .wmd-wrapper  ul {
+        margin-left: 0px !important;
+    }
+    .wmd-wrapper ul li{
+        list-style: disc !important;
+    }
+    .wmd-wrapper ul ul li{
+        list-style: circle !important;
+    }
+    .wmd-wrapper h1,
+    .wmd-wrapper h2,
+    .wmd-wrapper h3,
+    .wmd-wrapper h4,
+    .wmd-wrapper h5,
+    .wmd-wrapper h6 {
+        background: #ffffff !important;
+        color: #000000 !important;
+    }
+    .wmd-wrapper h2,
+    .wmd-wrapper h3,
+    .wmd-wrapper h4{
+        padding: 0px !important;
+    }
+    .wmd-wrapper h5{
+        letter-spacing: 0px !important;
+        text-transform: none !important;
+        font-size: 1em !important;
+    }
+    .wmd-wrapper h6{
+        font-size: 1em !important;
+        color: #777 !important;
+    }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+    <div class="sidebar sidebar-hide-to-small sidebar-shrink sidebar-gestures">
+        <div class="nano">
+            <div class="nano-content">
+                <ul>
+                    <li><a href="/Gr33kLibrary/main/"><i class="ti-home"></i>&nbsp;&nbsp;首页</a></li>
+                    <li><a href="/Gr33kLibrary/library/"><i class="ti-harddrives"></i>&nbsp;&nbsp;文库</a></li>
+                    <li><a href="/Gr33kLibrary/myarticle/1/"><i class="ti-save-alt"></i>&nbsp;&nbsp;我的文章</a></li>
+                    <li><a href="/Gr33kLibrary/mycollect/1/"><i class="ti-star"></i>&nbsp;&nbsp;我的收藏</a></li>
+                    <li><a href="/Gr33kLibrary/classify_manage/"><i class="ti-tag"></i>&nbsp;&nbsp;分类管理</a></li>
+                    <li><a href="/Gr33kLibrary/tools_manage/"><i class="ti-import"></i>&nbsp;&nbsp;代码&工具管理</a></li>
+                    <li><a href="/Gr33kLibrary/update_log/"><i class="ti-folder"></i>&nbsp;&nbsp;更新日志管理</a></li>
+                    <li><a href="/Gr33kLibrary/my_setting/"><i class="ti-settings"></i>&nbsp;&nbsp;我的设置</a></li>
+                    <li><a href="/Gr33kLibrary/invitation_code_manage/"><i class="ti-vimeo"></i>&nbsp;&nbsp;邀请码管理</a></li>
+                    {% if current_user.username == "Gr33k" %}
+                        <li><a href="/Gr33kLibrary/verify/"><i class="ti-shield"></i>&nbsp;&nbsp;审核文章</a></li>
+                        <li><a href="/Gr33kLibrary/user_manage/1/"><i class="ti-user"></i>&nbsp;&nbsp;用户管理</a></li>
+                    {% endif %}
+                <li><a href="/Gr33kLibrary/about_me/"><i class="ti-hand-stop"></i>&nbsp;&nbsp;关于我们</a></li>
+                </ul>
+            </div>
+        </div>
+    </div><!-- /# sidebar -->
+
+
+
+
+    <div class="header">
+        <div class="pull-left">
+                        <div class="logo">
+                <a href="/Gr33kLibrary/main/">
+                    <img id="logoImg"
+                    src="{% static 'logo/logo.png' %}"
+                    data-logo_big="{% static 'logo/logo.png' %}"
+                    data-logo_small="{% static 'logo/logoSmall.png' %}"
+                    alt="Nixon" />
+                </a>
+            </div>
+            <div class="hamburger sidebar-toggle">
+                <span class="ti-menu"></span>
+            </div>
+        </div>
+
+        <div class="pull-right p-r-15">
+            <ul>
+
+                <li class="header-icon dib"><img class="avatar-img" src="{% static 'assets/images/avatar/1.jpg' %}" alt="" /> <span class="user-avatar">{% if current_user %}{{ current_user.username }}{% else %}未登录{% endif %}<i class="ti-angle-down f-s-10"></i></span>
+                    <div class="drop-down dropdown-profile">
+                        <div class="dropdown-content-body">
+                            <ul>
+                                {% if current_user %}
+                                    <li><a href="/Gr33kLibrary/change_password/"><i class="ti-loop"></i> <span>修改密码</span></a></li>
+                                <li><a href="/Gr33kLibrary/logout/"><i class="ti-power-off"></i> <span>退出</span></a></li>
+                                {% else %}
+                                <li><a href="/Gr33kLibrary/login/"><i class="ti-power-off"></i> <span>登录</span></a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+<div class="content-wrap">
+        <div class="main">
+            <div class="container-fluid">
+                <div class="main-content">
+
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card alert">
+                                <div class="card-header">
+                                    <h4>新增更新日志</h4>
+                                </div>
+                                <div class="card-body">
+                                    <form action="/Gr33kLibrary/add_update_log/" method="post">
+                                {% csrf_token %}
+                                <div class="card-body">
+                                    <div style="height: 25px"></div>
+                                    <div class="wmd-wrapper"  id="id_content-wmd-wrapper">
+                                      <textarea  cols="40" id="id_content" name="content" rows="10" required></textarea>
+                                    </div>
+
+
+                                </div>
+
+                                <div align="right"><input type="submit" class="btn btn-primary m-b-10 m-l-5" value="新增"></div></form>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-12">
+                            <div class="card alert">
+                                <div class="card-header">
+                                    <h4>历史更新日志</h4>
+                                    <div class="card-header-right-icon">
+                                        <ul>
+                                            <li class="card-close" data-dismiss="alert"><i class="ti-close"></i></li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div style="height: 25px"></div>
+                                    {% for update_log in all_update_log %}
+                                        <font color="red">【{{ update_log.create_time|date:'Y-m-d H:i:s' }}】&nbsp;<a href="/Gr33kLibrary/delete_update_log/{{ update_log.id }}/">删除</a></font>
+                                        <div style="height: 10px"></div>
+                                        {{ update_log.content|safe }}
+                                        <div style="height: 10px"></div>
+                                    {% endfor %}
+
+                                当前第<font color="red">{{ page_num }}</font>页&nbsp;&nbsp;共<font color="red">{{ page_sum }}</font>页
+                                    <div align="right">
+                                        {% if page_num > 1 %}
+                                        <a type="button" class="btn btn-primary m-b-10 m-l-5" href="/Gr33kLibrary/update_log/{{ pre_num }}/">上一页</a>
+                                        {% endif %}
+                                        {% if page_num < page_sum %}
+                                        <a type="button" class="btn btn-primary m-b-10 m-l-5" href="/Gr33kLibrary/update_log/{{ next_num }}/">下一页</a>
+                                        {% endif %}
+
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+
+    $(function () {
+        editormd("id_content-wmd-wrapper", {
+            watch: true, // 关闭实时预览
+            lineNumbers: false,
+            lineWrapping: false,
+            width: "90% ",
+            height: 500,
+            placeholder: '',
+            // 当有多个mdeditor时，全屏后，其他mdeditor仍然显示，解决此问题。
+            onfullscreen : function() {
+                this.editor.css("border-radius", 0).css("z-index", 9999);
+            },
+            onfullscreenExit : function() {
+                this.editor.css({
+                    zIndex : 10,
+                    border : "1px solid rgb(221,221,221)"
+                })
+            },
+            syncScrolling: "single",
+            path: "/static/mdeditor/js/lib/",
+            // theme
+            theme : "default",
+            previewTheme : "default",
+            editorTheme : "default",
+
+            saveHTMLToTextarea: true, // editor.md 有问题没有测试成功
+            toolbarAutoFixed: true,
+            searchReplace: true,
+            emoji: true,
+            tex: true,
+            taskList: false,
+            flowChart: true,
+            sequenceDiagram: true,
+
+            // image upload
+            imageUpload: true,
+            imageFormats: ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'webp'],
+            imageUploadURL: "/mdeditor/uploads/",
+            toolbarIcons: function () {
+                return ['undo', 'redo', '|', 'bold', 'del', 'italic', 'quote', 'ucwords', 'uppercase', 'lowercase', '|', 'h1', 'h2', 'h3', 'h5', 'h6', '|', 'list-ul', 'list-ol', 'hr', '|', 'link', 'reference-link', 'image', 'code', 'preformatted-text', 'code-block', 'table', 'datetimeemoji', 'html-entities', 'pagebreak', 'goto-line', '|', 'help', 'info', '||', 'preview', 'watch', 'fullscreen']
+            },
+            onload: function () {
+                console.log('onload', this);
+                //this.fullscreen();
+                //this.unwatch();
+                //this.watch().fullscreen();
+
+                //this.setMarkdown("#PHP");
+                //this.width("100%");
+                //this.height(480);
+                //this.resize("100%", 640);
+            }
+        });
+
+    });
+</script>
+
+    <script src="{% static 'assets/js/lib/jquery.min.js' %}"></script><!-- jquery vendor -->
+    <script src="{% static 'assets/js/lib/jquery.nanoscroller.min.js' %}"></script><!-- nano scroller -->
+    <script src="{% static 'ajax.js' %}"></script>
+    <script src="{% static 'assets/js/lib/sidebar.js' %}"></script><!-- sidebar -->
+    <script src="{% static 'assets/js/lib/bootstrap.min.js' %}"></script><!-- bootstrap -->
+    <script src="{% static 'assets/js/lib/nestable/jquery.nestable.js' %}"></script><!-- scripit init-->
+    <script src="{% static 'assets/js/lib/nestable/nestable.init.js' %}"></script><!-- scripit init-->
+    <script src="{% static 'assets/js/lib/sweetalert/sweetalert.min.js' %}"></script><!-- scripit init-->
+    <script src="{% static 'assets/js/lib/sweetalert/sweetalert.init.js' %}"></script><!-- scripit init-->
+    <script src="{% static 'assets/js/scripts.js' %}"></script><!-- scripit init-->
+
+
+
+
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>文库注册</title>
+
+	<!-- ================= Favicon ================== -->
+    <!-- Standard -->
+    <link rel="shortcut icon" href="http://placehold.it/64.png/000/fff">
+    <!-- Retina iPad Touch Icon-->
+    <link rel="apple-touch-icon" sizes="144x144" href="http://placehold.it/144.png/000/fff">
+    <!-- Retina iPhone Touch Icon-->
+    <link rel="apple-touch-icon" sizes="114x114" href="http://placehold.it/114.png/000/fff">
+    <!-- Standard iPad Touch Icon-->
+    <link rel="apple-touch-icon" sizes="72x72" href="http://placehold.it/72.png/000/fff">
+    <!-- Standard iPhone Touch Icon-->
+    <link rel="apple-touch-icon" sizes="57x57" href="http://placehold.it/57.png/000/fff">
+
+	<!-- Styles -->
+    <link href="{% static 'assets/fontAwesome/css/fontawesome-all.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/lib/themify-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/lib/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/lib/nixon.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+</head>
+
+<body class="bg-primary">
+
+	<div class="Nixon-login">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6 col-lg-offset-3">
+					<div class="login-content">
+						<div class="login-logo">
+							<a href="/Gr33kLibrary/main/">
+                                <img id="logoImg"
+                                    src="{% static 'logo/logo.png' %}"
+                                    data-logo_big="{% static 'logo/logo.png' %}"
+                                    data-logo_small="{% static 'logo/logoSmall.png' %}"
+                                    alt="Nixon" />
+                            </a>
+						</div>
+						<div class="login-form">
+							<h4>用户注册</h4>
+							<form action="/Gr33kLibrary/register/" method="post">
+                                {% csrf_token %}
+								<div class="form-group">
+									<label>账号</label>
+									<input type="text" class="form-control" placeholder="账号" name="username" value="{{ username }}">
+								</div>
+                                <div class="form-group">
+									<label>姓名</label>
+									<input type="text" class="form-control" placeholder="密码" name="name" value="{{ name }}">
+								</div>
+                                <div class="form-group">
+									<label>邮箱</label>
+									<input type="text" class="form-control" placeholder="密码" name="email" value="{{ email }}">
+								</div>
+                                <div class="form-group">
+									<label>邀请码</label>
+									<input type="text" class="form-control" placeholder="密码" name="invitation_code" value="{{ invitation_code }}">
+								</div>
+                                <div class="form-group">
+									<label>密码</label>
+									<input type="password" class="form-control" placeholder="密码" name="password" value="{{ password }}">
+								</div>
+                                <div class="form-group">
+									<label>确认密码</label>
+									<input type="password" class="form-control" placeholder="密码" name="re_password" value="{{ re_password }}">
+								</div>
+
+
+								<button type="submit" class="btn btn-primary btn-flat m-b-30 m-t-30">注册</button>
+                                <center><font color="red">{{ info }}</font></center>
+                                <div class="register-link m-t-15 text-center">
+									<p><a href="/Gr33kLibrary/login/">返回登录</a></p>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+
+</html>

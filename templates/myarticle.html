@@ -1,0 +1,345 @@
+{% load static %}
+ <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>漏洞知识库-我的文章</title>
+
+	<!-- ================= Favicon ================== -->
+    <!-- Standard -->
+    <link rel="shortcut icon" href="http://placehold.it/64.png/000/fff">
+    <!-- Retina iPad Touch Icon-->
+    <link rel="apple-touch-icon" sizes="144x144" href="http://placehold.it/144.png/000/fff">
+    <!-- Retina iPhone Touch Icon-->
+    <link rel="apple-touch-icon" sizes="114x114" href="http://placehold.it/114.png/000/fff">
+    <!-- Standard iPad Touch Icon-->
+    <link rel="apple-touch-icon" sizes="72x72" href="http://placehold.it/72.png/000/fff">
+    <!-- Standard iPhone Touch Icon-->
+    <link rel="apple-touch-icon" sizes="57x57" href="http://placehold.it/57.png/000/fff">
+
+	<!-- Styles -->
+    <link href="{% static 'assets/fontAwesome/css/fontawesome-all.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/lib/themify-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/lib/sidebar.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/lib/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/lib/nestable/nestable.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/lib/sweetalert/sweetalert.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/lib/nixon.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+    <script src="{% static 'ajax.js' %}"></script>
+    <link rel="stylesheet" href="{% static "css/code.css" %}">
+
+
+
+</head>
+
+<body>
+
+    <div class="sidebar sidebar-hide-to-small sidebar-shrink sidebar-gestures">
+        <div class="nano">
+            <div class="nano-content">
+                <ul>
+                    <li><a href="/Gr33kLibrary/main/"><i class="ti-home"></i>&nbsp;&nbsp;首页</a></li>
+                    <li><a href="/Gr33kLibrary/library/"><i class="ti-harddrives"></i>&nbsp;&nbsp;文库</a></li>
+                    <li><a href="/Gr33kLibrary/myarticle/1/"><i class="ti-save-alt"></i>&nbsp;&nbsp;我的文章</a></li>
+                    <li><a href="/Gr33kLibrary/mycollect/1/"><i class="ti-star"></i>&nbsp;&nbsp;我的收藏</a></li>
+                    <li><a href="/Gr33kLibrary/classify_manage/"><i class="ti-tag"></i>&nbsp;&nbsp;分类管理</a></li>
+                    <li><a href="/Gr33kLibrary/tools_manage/"><i class="ti-import"></i>&nbsp;&nbsp;代码&工具管理</a></li>
+                    <li><a href="/Gr33kLibrary/update_log/"><i class="ti-folder"></i>&nbsp;&nbsp;更新日志管理</a></li>
+                    <li><a href="/Gr33kLibrary/my_setting/"><i class="ti-settings"></i>&nbsp;&nbsp;我的设置</a></li>
+                    <li><a href="/Gr33kLibrary/invitation_code_manage/"><i class="ti-vimeo"></i>&nbsp;&nbsp;邀请码管理</a></li>
+                    {% if current_user.username == "Gr33k" %}
+                        <li><a href="/Gr33kLibrary/verify/"><i class="ti-shield"></i>&nbsp;&nbsp;审核文章</a></li>
+                        <li><a href="/Gr33kLibrary/user_manage/1/"><i class="ti-user"></i>&nbsp;&nbsp;用户管理</a></li>
+                    {% endif %}
+                <li><a href="/Gr33kLibrary/about_me/"><i class="ti-hand-stop"></i>&nbsp;&nbsp;关于我们</a></li>
+                </ul>
+            </div>
+        </div>
+    </div><!-- /# sidebar -->
+
+
+
+
+    <div class="header">
+        <div class="pull-left">
+                        <div class="logo">
+                <a href="/Gr33kLibrary/main/">
+                    <img id="logoImg"
+                    src="{% static 'logo/logo.png' %}"
+                    data-logo_big="{% static 'logo/logo.png' %}"
+                    data-logo_small="{% static 'logo/logoSmall.png' %}"
+                    alt="Nixon" />
+                </a>
+            </div>
+            <div class="hamburger sidebar-toggle">
+                <span class="ti-menu"></span>
+            </div>
+        </div>
+
+        <div class="pull-right p-r-15">
+            <ul>
+
+                <li class="header-icon dib"><img class="avatar-img" src="{% static 'assets/images/avatar/1.jpg' %}" alt="" /> <span class="user-avatar">{% if current_user %}{{ current_user.username }}{% else %}未登录{% endif %}<i class="ti-angle-down f-s-10"></i></span>
+                    <div class="drop-down dropdown-profile">
+                        <div class="dropdown-content-body">
+                            <ul>
+                                {% if current_user %}
+                                    <li><a href="/Gr33kLibrary/change_password/"><i class="ti-loop"></i> <span>修改密码</span></a></li>
+                                <li><a href="/Gr33kLibrary/logout/"><i class="ti-power-off"></i> <span>退出</span></a></li>
+                                {% else %}
+                                <li><a href="/Gr33kLibrary/login/"><i class="ti-power-off"></i> <span>登录</span></a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+         var isCheckAll = false;
+        function swapCheck() {
+            if (isCheckAll) {
+                $("input[type='checkbox']").each(function() {
+                    this.checked = false;
+                });
+                isCheckAll = false;
+            } else {
+                $("input[type='checkbox']").each(function() {
+                    this.checked = true;
+                });
+                isCheckAll = true;
+            }
+        }
+    </script>
+
+
+    <!-- END chat Sidebar-->
+
+    <div class="content-wrap">
+        <div class="main">
+            <div class="container-fluid">
+                <div class="main-content">
+
+                    <div class="row">
+
+                        <div class="col-lg-12">
+                            <div class="card alert">
+                                <div class="card-header">
+                                <div align="right">
+                                    <a href="/Gr33kLibrary/create_article/" type="button" class="btn btn-primary btn-outline m-b-10 m-l-5">撰写文章</a>
+                                    <a type="button" class="btn btn-warning btn-outline m-b-10 m-l-5" onclick="go_set_classify()">更改栏目</a>
+                                    <a  type="button" class="btn btn-warning btn-outline m-b-10 m-l-5" onclick="go_set_tags()">设置标签</a>
+                                    <a  type="button" class="btn btn-danger btn-outline m-b-10 m-l-5" onclick="delete_select_article()">删除文章</a>
+                                    <script>
+                                        function go_set_classify() {
+                                            $("#select_form").attr('action','/Gr33kLibrary/go_set_classify/');
+                                            $("#select_form").submit();
+                                        }
+                                        function go_set_tags() {
+                                            $("#select_form").attr('action','/Gr33kLibrary/go_set_tags/');
+                                            $("#select_form").submit();
+                                        }
+                                        function delete_select_article() {
+                                            var x = confirm("确定删除所选吗？此操作不可回退");
+                                            if(x){
+                                                $("#select_form").attr('action','/Gr33kLibrary/delete_articles/');
+                                                $("#select_form").submit();
+                                            }
+                                        }
+                                    </script>
+                                </div><br>
+
+                                    <h4>文章列表</h4>
+                                </div>
+
+                                <div class="card-body">
+                                    <table class="table table-responsive table-hover ">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th><input type="checkbox" onclick="swapCheck()"></th>
+                                                <th>标题</th>
+                                                <th>创建人</th>
+                                                <th>所属栏目</th>
+                                                <th>标签</th>
+                                                <th>创建时间</th>
+                                                <th>修改时间</th>
+                                                <th>状态</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        <form action="/Gr33kLibrary/go_set_classify/" method="post" id="select_form">
+                                        {% csrf_token %}
+                                        {% for article in my_articles %}
+                                            <tr>
+                                                <th scope="row">{{ forloop.counter }}</th>
+                                                <td><input type="checkbox" name="select_article_ids" value="{{ article.article.id }}"></td>
+                                                <td width="20%">{{ article.article.title }}</td>
+                                                <td width="8%">{{ article.article.author.name }}</td>
+                                                <td>{{ article.article.classify.name }}</td>
+                                                <td style="width: 7%">
+                                                    {% for tag in article.tags %}
+                                                    <span class="badge badge-primary">{{ tag }}</span>
+                                                    {% endfor %}
+                                                </td>
+                                                <td>{{ article.article.create_time|date:'Y-m-d H:i:s' }}</td>
+                                                <td>{{ article.article.update_time|date:'Y-m-d H:i:s' }}</td>
+                                                <td>
+                                                    {% if article.article.state == 1 %}
+                                                        <span class="badge badge-primary">未发表</span>
+                                                    {% elif article.article.state == 2 %}
+                                                        <span class="badge badge-warning">审核中</span>
+                                                    {% elif article.article.state == 3 %}
+                                                        <span class="badge badge-success">已发表</span>
+                                                    {% elif article.article.state == 4 %}
+                                                        <span class="badge badge-danger" onclick="show_back_info({{ article.article.id }})">审核退回</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if article.article.state == 1 or article.article.state == 2 %}
+                                                    <a type="button" class="btn btn-warning btn-outline m-b-10 m-l-5 btn-sm" href="/Gr33kLibrary/preview/{{ article.article.id }}/" target="_blank">预览</a>
+                                                    {% endif %}
+                                                    <a type="button" class="btn btn-primary btn-outline m-b-10 m-l-5 btn-sm" href="/Gr33kLibrary/edite_article/{{ article.article.id }}/">编辑</a>
+                                                    <button type="button" class="btn btn-danger btn-outline m-b-10 m-l-5 btn-sm" onclick="delete_article({{ article.article.id }})">删除</button>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </form>
+                                        </tbody>
+                                    </table>
+                                当前第<font color="red">{{ page_num }}</font>页&nbsp;&nbsp;共<font color="red">{{ page_sum }}</font>页
+                                    <div align="right">
+                                        {% if page_num > 1 %}
+                                        <a type="button" class="btn btn-primary m-b-10 m-l-5" href="/Gr33kLibrary/myarticle/{{ pre_num }}/">上一页</a>
+                                        {% endif %}
+                                        {% if page_num < page_sum %}
+                                        <a type="button" class="btn btn-primary m-b-10 m-l-5" href="/Gr33kLibrary/myarticle/{{ next_num }}/">下一页</a>
+                                        {% endif %}
+                                </div>
+							</div><!-- /# card -->
+						</div><!-- /# column -->
+
+
+
+                        <div class="col-lg-12">
+                            <div class="card alert">
+                                <div class="card-header">
+                                    <h4>快速搜索</h4>
+                                    <div class="card-header-right-icon">
+                                        <ul>
+                                            <li class="card-close" data-dismiss="alert"><i class="ti-close"></i></li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="basic-form">
+                                        <form method="post" action="/Gr33kLibrary/search_article/">
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                                <p class="text-muted m-b-15 f-s-12">请将你要查找的<code>关键字</code>输入在下方输入框,检索范围:<code>标题</code><code>内容</code></p>
+                                                <div class="input-group input-group-rounded">
+                                                    <input type="text" placeholder="关键字" name="keytext" class="form-control" value="{{ keytext }}">
+                                                    <span class="input-group-btn"><button class="btn btn-primary btn-group-right" type="submit"><i class="ti-search"></i></button></span>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function delete_article(article_id) {
+            var x = confirm("确定删除吗?");
+            if(x){
+                myajax.post({
+                    'url':'/Gr33kLibrary/delete_article/',
+                    'dataType':'json',
+                    'data':{
+                        'article_id':article_id,
+                    },
+                    'success':function (data) {
+                        var dataObj = JSON.parse(data);
+                        if(dataObj.info=="ok"){
+                            window.location.reload();
+                        }else{
+                            alert('删除出错');
+                        }
+
+                    },
+                    'fail':function (error) {
+                        alert("未知错误！");
+                    }
+                });
+            }
+        }
+        function show_back_info(article_id) {
+            myajax.post({
+                'url':'/Gr33kLibrary/show_back_info/',
+                'dataType':'json',
+                'data':{
+                    'article_id':article_id,
+                },
+                'success':function (data) {
+                    var dataObj = JSON.parse(data);
+                    if(dataObj.info=="ok"){
+                        alert(dataObj.back_info);
+                    }else{
+                        alert('删除出错');
+                    }
+
+                },
+                'fail':function (error) {
+                    alert("未知错误！");
+                }
+            });
+        }
+    </script>
+
+
+    <script>
+        {% autoescape off %}
+            {{ info }}
+        {% endautoescape %}
+    </script>
+
+    <script src="{% static 'assets/js/lib/jquery.min.js' %}"></script><!-- jquery vendor -->
+    <script src="{% static 'assets/js/lib/jquery.nanoscroller.min.js' %}"></script><!-- nano scroller -->
+    <script src="{% static 'assets/js/lib/sidebar.js' %}"></script><!-- sidebar -->
+    <script src="{% static 'assets/js/lib/bootstrap.min.js' %}"></script><!-- bootstrap -->
+    <script src="{% static 'assets/js/lib/nestable/jquery.nestable.js' %}"></script><!-- scripit init-->
+    <script src="{% static 'assets/js/lib/nestable/nestable.init.js' %}"></script><!-- scripit init-->
+    <script src="{% static 'assets/js/lib/sweetalert/sweetalert.min.js' %}"></script><!-- scripit init-->
+    <script src="{% static 'assets/js/lib/sweetalert/sweetalert.init.js' %}"></script><!-- scripit init-->
+    <script src="{% static 'assets/js/scripts.js' %}"></script><!-- scripit init-->
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>
