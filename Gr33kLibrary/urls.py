@@ -57,17 +57,4 @@ urlpatterns = [
     path('go_set_tags/',views.go_set_tags,name='go_set_tags'),
     path('set_tags/',views.set_tags,name='set_tags'),
     path('delete_articles/',views.delete_articles,name='delete_articles'),
-
-
-
-
-    path('qingy_sync/',views.qingy_sync,name='qingy_sync'),
-    path('pwnwiki_sync/',views.pwnwiki_sync,name='pwnwiki_sync'),
-    path('baige_sync/',views.baige_sync,name='baige_sync'),
-    path('yougar_sync/',views.yougar_sync,name='yougar_sync'),
-    path('apachecn_sync/',views.apachecn_sync,name='apachecn_sync'),
-    path('zhihui_sync/',views.zhihui_sync,name='zhihui_sync'),
-    path('lingjiao_sync/',views.lingjiao_sync,name='lingjiao_sync'),
-    path('lingzu_sync/',views.lingzu_sync,name='lingzu_sync'),
-    path('yuque_sync/',views.yuque_sync,name='yuque_sync'),
 ]
