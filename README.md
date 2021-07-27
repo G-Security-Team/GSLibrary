@@ -1,4 +1,4 @@
-# # GSLibrary 安装手册（个人DEBUG版安装）
+# GSLibrary 安装手册（个人DEBUG版安装）
 ![](https://img.shields.io/badge/python3-3.7-2dc937)
 ![](https://img.shields.io/badge/django-2.1.7-2dc937)
 - - - -
