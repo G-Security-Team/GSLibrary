@@ -72,6 +72,10 @@ use zslibrary;
 source GSLibrary/zslibrary.sql;
 ```
 
+### 四、导入工具库（不需要可以不导入）
+
+GSLibrary自带一个工具库，包含部分POC与图形化利用工具，公众号回复 `工具库` 即可。
+
 ### 四、启动GSLibrary
 
 ```
