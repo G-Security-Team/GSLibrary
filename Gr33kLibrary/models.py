@@ -13,7 +13,7 @@ class User(models.Model):
     login_fail = models.IntegerField(default=0)
     invitation_code = models.CharField(max_length=255,null=True,unique=True)
     invitation_user = models.IntegerField(null=True)
-    create_time = models.DateTimeField(auto_now=True)
+    create_time = models.DateTimeField(auto_now=False)
     invitation_num = models.IntegerField(default=0)
     article_num = models.IntegerField(default=0)
 
