@@ -17,19 +17,20 @@
 
 	1. qingy未分类（已发布）
 	2. pwnwiki未分类（已发布）
-	3. 白阁未分类
-	4. yougar未分类
-	5. ApacheCN未分类
-	6. POCHouse未分类
-	7. 知汇社区未分类
-	8. Middleware-Vulnerability未分类
-	9. Some-PoC-oR-ExP未分类
-	10. 棱角社区未分类
-	11. 零组未分类
-	12. 语雀未分类
-	13. 佩奇未分类
+	3. 白阁未分类（已发布）
+	4. yougar未分类（已发布）
+	5. ApacheCN未分类（已发布）
+	6. POCHouse未分类（已发布）
+	7. Middleware-Vulnerability未分类（已发布）
+	8. Some-PoC-oR-ExP未分类（已发布）
+	9. 棱角社区未分类（已发布）
+	10. 零组未分类（已发布）
+	11. 佩奇未分类（已发布）
+	12. 知汇社区未分类
+	13. 语雀未分类
+	14. wooyunwiki未分类
 
-其中共计文章1.8W篇（不同知识库之间有重复）
+其中共计文章1.9W篇（不同知识库之间有重复）
 CTF wp约600篇
 
 - - - -
@@ -53,7 +54,7 @@ CTF wp约600篇
 ### 二、clone 代码到本地并安装依赖
 
 ```
-git clone https://github.com/lijiaxing1997/GSLibrary.git
+git clone https://github.com/G-Security-Team/GSLibrary.git
 python3 -m pip install -r requirements.txt
 ```
 
