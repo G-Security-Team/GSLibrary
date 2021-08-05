@@ -185,7 +185,8 @@ def add_user(request):
                     name=name,
                     email=email,
                     password=encry_password,
-                    invitation_code=invitation_code
+                    invitation_code=invitation_code,
+                    create_time=datetime.datetime.now()
                 )
                 return HttpResponseRedirect('/Gr33kLibrary/user_manage/1/')
             except:
@@ -230,13 +231,7 @@ def edite_user(request,user_id):
             user.name = name
             user.email = email
             user.save()
-            all_user = User.objects.all().order_by('create_time')
-            context = {
-                'current_user': current_user,
-                'all_user':all_user,
-                'info': 'alert("修改成功!")'
-            }
-            return render(request, 'user_manage.html', context=context)
+            return HttpResponseRedirect('/Gr33kLibrary/user_manage/1/')
     else:
         context = {
             'current_user': current_user,
