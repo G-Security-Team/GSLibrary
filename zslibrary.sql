@@ -622,7 +622,7 @@ CREATE TABLE `Gr33kLibrary_user` (
 -- Records of Gr33kLibrary_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `Gr33kLibrary_user` VALUES (12, 'Gr33k', 'e10adc3949ba59abbe56e057f20f883e', '', 'GST', 0, 5, NULL, NULL, '2021-07-25 01:27:07.850200', 0, 0);
+INSERT INTO `Gr33kLibrary_user` VALUES (12, 'Gr33k', 'e10adc3949ba59abbe56e057f20f883e', '', 'GST', 0, 0, NULL, NULL, '2021-07-25 01:27:07.850200', 0, 0);
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
