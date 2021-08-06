@@ -998,7 +998,8 @@ def register(request):
                     name=name,
                     email=email,
                     password=encry_password,
-                    invitation_user=invitation_user.id
+                    invitation_user=invitation_user.id,
+                    create_time=datetime.datetime.now()
                 )
                 invitation_user.invitation_num += 1
                 invitation_user.save()
