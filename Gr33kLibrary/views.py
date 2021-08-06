@@ -84,6 +84,8 @@ def login(request):
             if user.password == encry_password:
                 if not user.is_lock:
                     request.session['user'] = user.id
+                    user.login_fail = 0
+                    user.save()
                     request.session.set_expiry(36000)
                     return HttpResponseRedirect('/Gr33kLibrary/main/')
                 else:
