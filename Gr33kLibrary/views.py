@@ -955,7 +955,7 @@ def register(request):
         invitation_code = request.POST.get('invitation_code')
         try:
             invitation_user = User.objects.get(invitation_code=invitation_code)
-            if invitation_user.invitation_num >= 4:
+            if invitation_user.invitation_num > 4:
                 context = {
                     'username': username,
                     'name': name,
