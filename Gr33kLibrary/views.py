@@ -16,6 +16,7 @@ import threading
 import queue
 import re
 import requests
+from django.db.models import Q
 # Create your views here.
 
 
@@ -651,10 +652,7 @@ def tools_manage(request,page_num):
     except:
         return HttpResponseRedirect('/Gr33kLibrary/login/')
     if request.method == "GET":
-        if current_user.username == "Gr33k":
-            all_tools = Tool.objects.all().order_by('-create_time')
-        else:
-            all_tools = Tool.objects.filter(upload_user=current_user).order_by('-create_time')
+        all_tools = Tool.objects.all().order_by('-create_time')
         page_sum = int(all_tools.count() / 10) + 1
         page_num = int(page_num) - 1
         if page_num < 0 or page_num >= page_sum:
@@ -681,7 +679,7 @@ def search_tools(request):
         return HttpResponseRedirect('/Gr33kLibrary/login/')
     if request.method == "POST":
         keytext = request.POST.get('keytext')
-        search_tools = Tool.objects.filter(name__contains=keytext)
+        search_tools = Tool.objects.filter(name__icontains=keytext)
         context = {
             'current_user':current_user,
             'all_tools':search_tools,
@@ -797,24 +795,23 @@ def search_result(request):
     except:
         return HttpResponseRedirect('/Gr33kLibrary/login/')
     keytext = request.POST.get('keytext')
-    all_article = Article.objects.filter(state=3).order_by('-update_time')
+    all_article = Article.objects.filter(Q(state=3) & (Q(title__icontains=keytext) | Q(content__icontains=keytext))).order_by('-update_time')
 
     all_article_temps = []
     for article in all_article:
-            if keytext in article.content or keytext in article.title:
-                article.content = article.content[:60] + '...'
-                try:
-                    tags = article.tags.split(',')
-                    if '' in tags:
-                        tags.remove('')
-                except:
-                    tags = []
-                all_article_temps.append(
-                    Article_temp(
-                        article=article,
-                        tags=tags
-                    )
-                )
+        article.content = article.content[:60] + '...'
+        try:
+            tags = article.tags.split(',')
+            if '' in tags:
+                tags.remove('')
+        except:
+            tags = []
+        all_article_temps.append(
+            Article_temp(
+                article=article,
+                tags=tags
+            )
+        )
     context = {
         'current_user': current_user,
         'all_article':all_article_temps,
@@ -1009,7 +1006,8 @@ def register(request):
                     'info':'注册成功,请登录'
                 }
                 return render(request,'login.html',context=context)
-            except:
+            except Exception as e:
+                print(e)
                 context = {
                     'username':username,
                     'name':name,
@@ -1258,10 +1256,6 @@ def library(request):
         all_classify = Classify.objects.all().order_by('name')
         all_users = User.objects.all().order_by('name')
         all_tags = Tag.objects.all().order_by('name')
-        if all_tags.count() > 0:
-            search_tag = all_tags[0].id
-        else:
-            search_tag = ""
         context = {
             'current_user': current_user,
             'all_article': all_article,
@@ -1269,9 +1263,7 @@ def library(request):
             'all_article_num':all_article.count(),
             'all_users':all_users,
             'all_tags':all_tags,
-            'search_tag':search_tag,
             'show_tag_state':1,
-            'search_user':all_users[0].id
         }
         return render(request,'library.html',context=context)
 
@@ -1341,26 +1333,12 @@ def search_author(request):
             }
             return render(request, 'show_info.html', context=context)
         all_article = Article.objects.filter(state=3).filter(author=user).order_by('-update_time')
-        all_article_temps = []
-        for article in all_article:
-            try:
-                tags = article.tags.split(',')
-                if '' in tags:
-                    tags.remove('')
-            except:
-                tags = []
-            all_article_temps.append(
-                Article_temp(
-                    article=article,
-                    tags=tags
-                )
-            )
         all_classify = Classify.objects.all().order_by('name')
         all_users = User.objects.all().order_by('name')
         all_tags = Tag.objects.all().order_by('name')
         context = {
             'current_user': current_user,
-            'all_article': all_article_temps,
+            'all_article': all_article,
             'all_classify': all_classify,
             'all_article_num': all_article.count(),
             'all_users': all_users,
@@ -1421,14 +1399,12 @@ def search_tag(request):
         all_article = Article.objects.filter(state=3).order_by('-update_time')
         all_article_temps = []
         for article in all_article:
-            tags = article.tags.split(',')
+            try:
+                tags = article.tags.split(',')
+            except:
+                tags = []
             if str(tag.id) in tags:
-                all_article_temps.append(
-                    Article_temp(
-                        article=article,
-                        tags=tags
-                    )
-                )
+                all_article_temps.append(article)
         all_classify = Classify.objects.all().order_by('name')
         all_users = User.objects.all().order_by('name')
         all_tags = Tag.objects.all().order_by('name')
@@ -1460,26 +1436,32 @@ def search_article(request):
     if request.method == "POST":
         keytext = request.POST.get('keytext')
         if current_user.username == "Gr33k":
-            all_article = Article.objects.all()
+            all_article = Article.objects.filter(Q(title__icontains=keytext) | Q(content__icontains=keytext))
         else:
-            all_article = Article.objects.filter(author=current_user)
+            all_article = Article.objects.filter(Q(author=current_user) & (Q(title__icontains=keytext) | Q(content__icontains=keytext)))
         new_articles = []
         for article in all_article:
-            if keytext in article.content or keytext in article.title:
-                try:
-                    tags = article.tags.split(',')
-                    if '' in tags:
-                        tags.remove('')
-                except:
-                    tags = []
-                    if article.title.__len__() > 20:
-                        article.title = article.title[:20] + '...'
-                new_articles.append(
-                    Article_temp(
-                        article,
-                        tags
-                    )
+            try:
+                tags = article.tags.split(',')
+                if '' in tags:
+                    tags.remove('')
+                tag_names = []
+                for tag_id in tags:
+                    try:
+                        tag_name = Tag.objects.get(id=int(tag_id)).name
+                        tag_names.append(tag_name)
+                    except:
+                        pass
+            except:
+                tag_names = []
+            if article.title.__len__() > 20:
+                article.title = article.title[:20] + '...'
+            new_articles.append(
+                Article_temp(
+                    article,
+                    tag_names
                 )
+            )
         context = {
             'current_user': current_user,
             'my_articles': new_articles,
@@ -1584,14 +1566,10 @@ def search_collect_article(request):
         return HttpResponseRedirect('/Gr33kLibrary/login/')
     if request.method == "POST":
         keytext = request.POST.get('keytext')
-        collects = Collect.objects.filter(user=current_user).order_by('-create_time')
-        my_collects = []
-        for collect in collects:
-            if keytext in collect.article.title or keytext in collect.article.content:
-                my_collects.append(collect)
+        collects = Collect.objects.filter(Q(user=current_user) & (Q(article__title__icontains=keytext) | Q(article__content__icontains=keytext))).order_by('-create_time')
         context = {
             'current_user': current_user,
-            'collects': my_collects,
+            'collects': collects,
             'page_num':1,
             'page_sum':1
         }
