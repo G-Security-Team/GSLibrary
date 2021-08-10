@@ -9,7 +9,7 @@
 
     <title>漏洞知识库</title>
 
-	<!-- ================= Favicon ================== -->
+    <!-- ================= Favicon ================== -->
     <!-- Standard -->
     <link rel="shortcut icon" href="http://placehold.it/64.png/000/fff">
     <!-- Retina iPad Touch Icon-->
@@ -21,7 +21,7 @@
     <!-- Standard iPhone Touch Icon-->
     <link rel="apple-touch-icon" sizes="57x57" href="http://placehold.it/57.png/000/fff">
 
-	<!-- Styles -->
+    <!-- Styles -->
     <link href="{% static 'assets/fontAwesome/css/fontawesome-all.min.css' %}" rel="stylesheet">
     <link href="{% static 'assets/css/lib/themify-icons.css' %}" rel="stylesheet">
     <link href="{% static 'assets/css/lib/mmc-chat.css' %}" rel="stylesheet" />
@@ -46,11 +46,10 @@
 {#    <script src="http://cdn.staticfile.org/twitter-bootstrap/3.3.1/js/bootstrap.min.js" type="text/javascript"></script>#}
     <script src="{% static 'assets/js/lib/mmc-common.js' %}"></script>
     <script src="{% static 'assets/js/lib/mmc-chat.js' %}"></script>
-{#    <script src="{% static 'assets/js/lib/nestable/jquery.nestable.js' %}"></script><!-- scripit init-->#}
+    <script src="{% static 'assets/js/lib/nestable/jquery.nestable.js' %}"></script><!-- scripit init-->
     <script src="{% static 'assets/js/lib/nestable/nestable.init.js' %}"></script><!-- scripit init-->
     <script src="{% static 'assets/js/lib/sweetalert/sweetalert.min.js' %}"></script><!-- scripit init-->
     <script src="{% static 'assets/js/lib/sweetalert/sweetalert.init.js' %}"></script><!-- scripit init-->
-    <script src="{% static 'assets/js/scripts.js' %}"></script><!-- scripit init-->
     <script src="{% static 'ajax.js' %}"></script>
     <script src="{% static 'assets/js/bootstrap-select.min.js' %}"></script>
 
@@ -147,14 +146,13 @@
                                         <form method="post" action="/Gr33kLibrary/search_author/" id="search_author_form">
                                             {% csrf_token %}
                                             <select class="selectpicker show-tick form-control" data-live-search="true" name="author_name" id="search_author">
+                                            <option value="null">未选择</option>
                                                 {% for user in all_users %}
-                                                    {% if search_user %}
-                                                        {% if search_user == user.id %}
-                                                            <option value="{{ user.id }}" selected>{{ user.name }}</option>
-                                                            {% else %}
-                                                            <option value="{{ user.id }}">{{ user.name }}</option>
-                                                            {% endif %}
-                                                    {% endif %}
+                                                    {% if search_user == user.id %}
+                                                        <option value="{{ user.id }}" selected>{{ user.name }}</option>
+                                                        {% else %}
+                                                        <option value="{{ user.id }}">{{ user.name }}</option>
+                                                        {% endif %}
                                                 {% endfor %}
                                             </select>
 
@@ -168,7 +166,11 @@
                         </div>
                     <script>
                         $('#search_author').on('change',function(){
-                                            $("#search_author_form").submit();
+                            if($('#search_author').val() == "null"){
+
+                            }else{
+                               $("#search_author_form").submit();
+                            }
                                         });
                     </script>
 
@@ -183,14 +185,13 @@
                                         <form method="post" action="/Gr33kLibrary/search_tag/" id="search_tag_form">
                                             {% csrf_token %}
                                             <select class="selectpicker show-tick form-control" data-live-search="true" name="tag_name" id="search_tag">
+                                            <option value="null">未选择</option>
                                                 {% for tag in all_tags %}
-                                                    {% if search_tag %}
-                                                        {% if search_tag == tag.id %}
-                                                            <option value="{{ tag.id }}" selected>{{ tag.name }}</option>
-                                                            {% else %}
-                                                            <option value="{{ tag.id }}">{{ tag.name }}</option>
-                                                            {% endif %}
-                                                    {% endif %}
+                                                    {% if search_tag == tag.id %}
+                                                        <option value="{{ tag.id }}" selected>{{ tag.name }}</option>
+                                                        {% else %}
+                                                        <option value="{{ tag.id }}">{{ tag.name }}</option>
+                                                        {% endif %}
                                                 {% endfor %}
                                             </select>
 
@@ -205,7 +206,11 @@
 
                     <script>
                         $('#search_tag').on('change',function(){
-                                            $("#search_tag_form").submit();
+                            if($('#search_tag').val() == "null"){
+
+                            }else{
+                                $("#search_tag_form").submit();
+                            }
                         });
                     </script>
 
@@ -748,6 +753,10 @@
 
 </div>
                     </div></div></div></div></div>
+
+
+
 </body>
+<script src="{% static 'assets/js/scripts.js' %}"></script><!-- scripit init-->
 
 </html>
