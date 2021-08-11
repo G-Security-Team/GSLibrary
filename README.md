@@ -63,7 +63,7 @@ python3 -m pip install -r requirements.txt
 
 可以使用图形化工具进行创建数据库，数据库名：**zslibrary**，随后选择导入sql文件选中项目目录下的zslibrary.sql即可。
 
-若您使用的是命令行，则命令如下，默认数据库密码：Gr33kLibrary_pass1997!:
+若您使用的是命令行，则命令如下，默认数据库密码：Gr33kLibrary_pass1997!
 ```
 mysql -uroot -p
 password:**********
