@@ -29,9 +29,10 @@
 	12. 知汇社区未分类
 	13. 语雀未分类
 	14. wooyunwiki未分类
+	15. sangyun未分类
 
-其中共计文章1.9W篇（不同知识库之间有重复）
-CTF wp约600篇
+其中共计文章2W+篇（不同知识库之间有重复）
+CTF wp约1200篇
 
 - - - -
 ## 使用场景
@@ -62,7 +63,7 @@ python3 -m pip install -r requirements.txt
 
 可以使用图形化工具进行创建数据库，数据库名：**zslibrary**，随后选择导入sql文件选中项目目录下的zslibrary.sql即可。
 
-若您使用的是命令行，则命令如下:
+若您使用的是命令行，则命令如下，默认数据库密码：Gr33kLibrary_pass1997!:
 ```
 mysql -uroot -p
 password:**********
