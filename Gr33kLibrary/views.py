@@ -1256,9 +1256,14 @@ def library(request):
         all_classify = Classify.objects.all().order_by('name')
         all_users = User.objects.all().order_by('name')
         all_tags = Tag.objects.all().order_by('name')
+
+        all_article_dict = {}
+        for classify in all_classify:
+            all_article_dict[classify] = all_article.filter(classify_id=classify.id)
+
         context = {
             'current_user': current_user,
-            'all_article': all_article,
+            'all_article': all_article_dict,
             'all_classify': all_classify,
             'all_article_num':all_article.count(),
             'all_users':all_users,
@@ -1336,9 +1341,14 @@ def search_author(request):
         all_classify = Classify.objects.all().order_by('name')
         all_users = User.objects.all().order_by('name')
         all_tags = Tag.objects.all().order_by('name')
+
+        all_article_dict = {}
+        for classify in all_classify:
+            all_article_dict[classify] = all_article.filter(classify_id=classify.id)
+
         context = {
             'current_user': current_user,
-            'all_article': all_article,
+            'all_article': all_article_dict,
             'all_classify': all_classify,
             'all_article_num': all_article.count(),
             'all_users': all_users,
@@ -1396,21 +1406,18 @@ def search_tag(request):
                         'info': '没有该标签',
                     }
             return render(request,'show_info.html',context=context)
-        all_article = Article.objects.filter(state=3).order_by('-update_time')
-        all_article_temps = []
-        for article in all_article:
-            try:
-                tags = article.tags.split(',')
-            except:
-                tags = []
-            if str(tag.id) in tags:
-                all_article_temps.append(article)
+        all_article = Article.objects.filter(state=3).filter(tags__contains=str(tag.id) + ',').order_by('-update_time')
         all_classify = Classify.objects.all().order_by('name')
         all_users = User.objects.all().order_by('name')
         all_tags = Tag.objects.all().order_by('name')
+
+        all_article_dict = {}
+        for classify in all_classify:
+            all_article_dict[classify] = all_article.filter(classify_id=classify.id)
+
         context = {
             'current_user': current_user,
-            'all_article': all_article_temps,
+            'all_article': all_article_dict,
             'all_classify': all_classify,
             'all_article_num': all_article.count(),
             'all_users': all_users,
@@ -1574,6 +1581,428 @@ def search_collect_article(request):
             'page_sum':1
         }
         return render(request, 'mycollect.html', context=context)
+
+
+def qingy_sync(request):
+    qingy_dir = BASE_DIR + '/static/qingy/'
+    i = 0
+    for parent, dirnames, filenames in os.walk(qingy_dir, followlinks=True):
+        for filename in filenames:
+            i += 1
+            print(i)
+            if '.md' in filename:
+                title = filename.replace('.md', '')
+                file_path = os.path.join(parent, filename)
+                with open(file_path,'r') as f:
+                    content = f.read()
+                    content = content.replace('](./img','](/static/qingy/' + title + '/img')
+                    Article.objects.create(
+                        content=content,
+                        title=title,
+                        create_time=datetime.datetime.now(),
+                        update_time=datetime.datetime.now(),
+                        author_id=12,
+                        classify_id=104,
+                        state=3,
+                        type=1,
+                    )
+                    f.close()
+            else:
+                continue
+    return render(request,'show_info.html',context={'info':'ok'})
+
+
+
+def pwnwiki_sync(request):
+    qingy_dir = BASE_DIR + '/static/pwnwiki/'
+    i = 0
+    for parent, dirnames, filenames in os.walk(qingy_dir, followlinks=True):
+        for filename in filenames:
+            i += 1
+            print(i)
+            if '.md' in filename:
+                title = filename.replace('.md', '')
+                file_path = os.path.join(parent, filename)
+                with open(file_path,'r') as f:
+                    content = f.read()
+                    content = content.replace('](../img','](/static/pwnwiki/img')
+                    Article.objects.create(
+                        content=content,
+                        title=title,
+                        create_time=datetime.datetime.now(),
+                        update_time=datetime.datetime.now(),
+                        author_id=12,
+                        classify_id=105,
+                        state=3,
+                        type=1,
+                    )
+                    f.close()
+            else:
+                continue
+    return render(request,'show_info.html',context={'info':'ok'})
+
+
+def baige_sync(request):
+    qingy_dir = BASE_DIR + '/static/baige/'
+    i = 0
+    for parent, dirnames, filenames in os.walk(qingy_dir, followlinks=True):
+        for filename in filenames:
+            i += 1
+            print(i)
+            if '.md' in filename:
+                title = filename.replace('.md','')
+                file_path = os.path.join(parent, filename)
+                static_img_path = file_path.split('/static/')[-1].split(title)[0]
+                with open(file_path,'r') as f:
+                    content = f.read()
+                    content = content.replace('](','](/static/' + static_img_path)
+                    Article.objects.create(
+                        content=content,
+                        title=title,
+                        create_time=datetime.datetime.now(),
+                        update_time=datetime.datetime.now(),
+                        author_id=12,
+                        classify_id=106,
+                        state=3,
+                        type=1,
+                    )
+                    f.close()
+            else:
+                continue
+    return render(request,'show_info.html',context={'info':'ok'})
+
+
+def yougar_sync(request):
+    qingy_dir = BASE_DIR + '/static/yougar/'
+    i = 0
+    for parent, dirnames, filenames in os.walk(qingy_dir, followlinks=True):
+        for filename in filenames:
+            i += 1
+            print(i)
+            if '.md' in filename:
+                title = filename.replace('.md','')
+                file_path = os.path.join(parent, filename)
+                static_img_path = file_path.split('/static/')[-1].split(title)[0]
+                with open(file_path,'r') as f:
+                    content = f.read()
+                    content = content.replace('](./resource','img](/static/' + static_img_path + 'resource')
+                    Article.objects.create(
+                        content=content,
+                        title=title,
+                        create_time=datetime.datetime.now(),
+                        update_time=datetime.datetime.now(),
+                        author_id=12,
+                        classify_id=107,
+                        state=3,
+                        type=1,
+                    )
+                    f.close()
+            else:
+                continue
+    return render(request,'show_info.html',context={'info':'ok'})
+
+
+def apachecn_sync(request):
+    qingy_dir = BASE_DIR + '/static/ApacheCN/'
+    i = 0
+    for parent, dirnames, filenames in os.walk(qingy_dir, followlinks=True):
+        for filename in filenames:
+            i += 1
+            print(i)
+            if '.md' in filename:
+                file_path = os.path.join(parent, filename)
+                with open(file_path,'r') as f:
+                    title = f.readlines()[0].strip().replace('# ','')
+                    f.close()
+                static_img_path = file_path.split('/static/')[-1].split(filename)[0]
+                with open(file_path,'r') as f:
+                    content = f.read()
+                    content = content.replace('](img','img](/static/' + static_img_path + 'img')
+                    try:
+                        Article.objects.create(
+                            content=content,
+                            title=title,
+                            create_time=datetime.datetime.now(),
+                            update_time=datetime.datetime.now(),
+                            author_id=12,
+                            classify_id=108,
+                            state=3,
+                            type=1,
+                        )
+                    except:
+                        pass
+                    f.close()
+            else:
+                continue
+    return render(request,'show_info.html',context={'info':'ok'})
+
+
+def lingjiao_sync(request):
+    qingy_dir = BASE_DIR + '/static/lingjiao/'
+    i = 0
+    for parent, dirnames, filenames in os.walk(qingy_dir, followlinks=True):
+        for filename in filenames:
+            i += 1
+            print(i)
+            if '.md' in filename:
+                file_path = os.path.join(parent, filename)
+                title = filename.replace('.md','')
+                with open(file_path,'r') as f:
+                    content = f.read()
+                    content = content.replace('](media','](/static/lingjiao/media')
+                    content = content.replace('](images', '](/static/lingjiao/images')
+                    try:
+                        Article.objects.create(
+                            content=content,
+                            title=title,
+                            create_time=datetime.datetime.now(),
+                            update_time=datetime.datetime.now(),
+                            author_id=12,
+                            classify_id=113,
+                            state=3,
+                            type=1,
+                        )
+                    except:
+                        pass
+                    f.close()
+            else:
+                continue
+    return render(request,'show_info.html',context={'info':'ok'})
+
+
+
+def lingzu_sync(request):
+    qingy_dir = BASE_DIR + '/static/lingzu/'
+    i = 0
+    for parent, dirnames, filenames in os.walk(qingy_dir, followlinks=True):
+        for filename in filenames:
+            i += 1
+            print(i)
+            if '.md' in filename:
+                file_path = os.path.join(parent, filename)
+                title = filename.replace('.md','')
+                with open(file_path,'r') as f:
+                    content = f.read()
+                    content = content.replace('](file','](/static/lingzu/file')
+                    content = content.replace('](images', '](/static/lingzu/images')
+                    try:
+                        Article.objects.create(
+                            content=content,
+                            title=title,
+                            create_time=datetime.datetime.now(),
+                            update_time=datetime.datetime.now(),
+                            author_id=12,
+                            classify_id=114,
+                            state=3,
+                            type=1,
+                        )
+                    except:
+                        pass
+                    f.close()
+            else:
+                continue
+    return render(request,'show_info.html',context={'info':'ok'})
+
+
+def download_img(parent,url):
+    # 下载图片
+    r = requests.get(url, stream=True,timeout=20)
+    file_name = url.split('/')[-1]
+    if not os.path.exists(parent + '/img/'):
+        os.makedirs(parent + '/img/')
+    path = parent + '/img/' + file_name
+    if r.status_code == 200:
+        open(path, 'wb').write(r.content)
+    del r
+    return file_name
+
+
+def get_img_path(parent,content):
+    p = re.compile(r'<p><div class="lightbox-wrapper"><a(.*?)<img(.*?)src="(.*?)"(.*?)</a></div></p>',re.DOTALL)
+    for s in p.finditer(content):
+        img_path = s.group(3)
+        try:
+            file_name = download_img(parent,img_path)
+            print("下载完成:" + file_name)
+        except:
+            continue
+        static_img_path = parent + '/img/' + file_name
+        line = '<div class="lightbox-wrapper"><a' + s.group(1) + '<img' + s.group(2) + 'src="' + s.group(3) + '"' + s.group(4) + '</a></div>'
+        content = content.replace(line,'\n\n![](/' + static_img_path.split('zslibrary/')[-1] + ')\n\n')
+    return content
+
+
+def zhihui_sync(request):
+    qingy_dir = BASE_DIR + '/static/zhihui/'
+    i = 0
+    for parent, dirnames, filenames in os.walk(qingy_dir, followlinks=True):
+        for filename in filenames:
+            if '.md' in filename:
+                i += 1
+                print(i)
+                file_path = os.path.join(parent, filename)
+                title = filename.replace('.md', '')
+                static_img_path = file_path.split('/static/')[-1].split(filename)[0]
+                with open(file_path,'r') as f:
+                    content = f.read()
+                    content = content.replace('](./img','](/static/' + static_img_path + 'img')
+                    content = get_img_path(parent,content)
+                    try:
+                        Article.objects.create(
+                            content=content,
+                            title=title,
+                            create_time=datetime.datetime.now(),
+                            update_time=datetime.datetime.now(),
+                            author_id=12,
+                            classify_id=110,
+                            state=3,
+                            type=1,
+                        )
+                    except Exception as e:
+                        print(e)
+                        pass
+                    f.close()
+            else:
+                continue
+    return render(request,'show_info.html',context={'info':'ok'})
+
+def wooyun_sync(request):
+    qingy_dir = BASE_DIR + '/static/wooyunwiki/'
+    i = 0
+    for parent, dirnames, filenames in os.walk(qingy_dir, followlinks=True):
+        for filename in filenames:
+            if '.md' in filename:
+                i += 1
+                print(i)
+                file_path = os.path.join(parent, filename)
+                static_img_path = file_path.split('/static/')[-1].split(filename)[0]
+                with open(file_path,'r') as f:
+                    content = f.read()
+                    p = re.compile(r'```(.*?)```',re.DOTALL)
+                    for s in p.finditer(content):
+                        old_str = '```' + s.group(1) + '```'
+                        new_str = '```Code' + s.group(1) + '```'
+                        content = content.replace(old_str,new_str)
+                    content = content.replace('](./img','](/static/' + static_img_path + 'img')
+                    content = get_img_path(parent,content)
+                    try:
+                        Article.objects.create(
+                            content=content,
+                            title=title,
+                            create_time=datetime.datetime.now(),
+                            update_time=datetime.datetime.now(),
+                            author_id=12,
+                            classify_id=118,
+                            state=3,
+                            type=0,
+                        )
+                    except Exception as e:
+                        print(e)
+                        pass
+                    f.close()
+            else:
+                continue
+    return render(request,'show_info.html',context={'info':'ok'})
+
+
+def yuque_sync(request):
+    qingy_dir = BASE_DIR + '/static/yuque/'
+    i = 0
+    for parent, dirnames, filenames in os.walk(qingy_dir, followlinks=True):
+        for filename in filenames:
+            if '.md' in filename:
+                i += 1
+                print(i)
+                file_path = os.path.join(parent, filename)
+                title = filename.replace('.md', '')
+                static_img_path = file_path.split('/static/')[-1].split(filename)[0]
+                with open(file_path,'r') as f:
+                    content = f.read()
+                    if '十万阿里人都在用的笔记' in content:
+                        continue
+                    p = re.compile(r'<img src="\./img(.*?)" width=(.*?)>',re.DOTALL)
+                    for s in p.finditer(content):
+                        old_img = '<img src="./img' + s.group(1) + '" width=' + s.group(2) + '>'
+                        new_img = '<img src="/static/' + static_img_path + 'img' + s.group(1) + '" width=50% >'
+                        content = content.replace(old_img,new_img)
+                    try:
+                        Article.objects.create(
+                            content=content,
+                            title=title,
+                            create_time=datetime.datetime.now(),
+                            update_time=datetime.datetime.now(),
+                            author_id=12,
+                            classify_id=116,
+                            state=3,
+                            type=1,
+                        )
+                    except Exception as e:
+                        print(e)
+                        pass
+                    f.close()
+            else:
+                continue
+    return render(request,'show_info.html',context={'info':'ok'})
+
+def download_img1(parent,url,file_name):
+    # 下载图片
+    r = requests.get(url, stream=True,timeout=20)
+    if not os.path.exists(parent + '/img/'):
+        os.makedirs(parent + '/img/')
+    path = parent + '/img/' + file_name
+    if r.status_code == 200:
+        open(path, 'wb').write(r.content)
+    del r
+    return file_name
+
+
+def peiqi_sync(request):
+    qingy_dir = BASE_DIR + '/static/peiqi/'
+    i = 0
+    mm = 0
+    for parent, dirnames, filenames in os.walk(qingy_dir, followlinks=True):
+        for filename in filenames:
+            if '.md' in filename and 'README' not in filename:
+                i += 1
+                print(i)
+                file_path = os.path.join(parent, filename)
+                title = filename.replace('.md', '')
+                static_img_path = file_path.split('/static/')[-1].split(filename)[0]
+                with open(file_path,'r') as f:
+                    content = f.read()
+                    p = re.compile(r'!\[(.*?)\]\((.*?)\)',re.DOTALL)
+                    for s in p.finditer(content):
+                        old_img = '![' + s.group(1) + '](' + s.group(2) + ')'
+                        if 'http' not in s.group(2):
+                            continue
+                        try:
+                            mm += 1
+                            download_img1(parent,s.group(2),str(mm) + '.png')
+                            new_img = '<img src="/static/' + static_img_path + 'img/' + str(mm) + '.png" width=50% >'
+                            content = content.replace(old_img,new_img)
+                        except:
+                            continue
+                    try:
+                        Article.objects.create(
+                            content=content,
+                            title=title,
+                            create_time=datetime.datetime.now(),
+                            update_time=datetime.datetime.now(),
+                            author_id=12,
+                            classify_id=117,
+                            state=3,
+                            type=0,
+                        )
+                    except Exception as e:
+                        print(e)
+                        pass
+                    f.close()
+            else:
+                continue
+    return render(request,'show_info.html',context={'info':'ok'})
+
+
+
 
 
 def go_set_classify(request):
