@@ -1354,7 +1354,7 @@ def search_author(request):
             'all_users': all_users,
             'all_tags': all_tags,
             'search_user': user.id,
-            'search_tag':all_tags[0].id
+            'search_tag':'null'
         }
         return render(request, 'library.html', context=context)
     else:
@@ -1423,7 +1423,7 @@ def search_tag(request):
             'all_users': all_users,
             'all_tags': all_tags,
             'search_tag':tag.id,
-            'search_user':all_users[0].id
+            'search_user':'null'
         }
         return render(request, 'library.html', context=context)
         # return render(request, 'search_result.html', context=context)
