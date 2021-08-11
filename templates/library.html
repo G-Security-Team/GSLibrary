@@ -237,18 +237,15 @@
                                                         <div class="nestable">
                                                             <div class="dd" id="nestable">
                                                                 <ol class="dd-list">
-                                                                    {% for classify in all_classify %}
+                                                                    {% for classify,articles in all_article.items %}
                                                                         <li class="dd-item" data-id="{{ classify.id }}">
                                                                         <div class="dd-handle">{{ classify.name }}</div>
                                                                         <ol class="dd-list">
-                                                                            {% for article in all_article %}
-                                                                                {% if article.classify.id == classify.id %}
+                                                                            {% for article in articles %}
                                                                                 <li class="dd-item" data-id="{{ article.id }}" >
                                                                                     <a class="dd-handle" href="/Gr33kLibrary/article_detail/{{ article.id }}/" target="_blank">{{ article.title }}{% if article.type == 1 %}<font color="#006400">（原创）</font>{% endif %}&nbsp;&nbsp;&nbsp;<font color="red">{{ article.update_time|date:'Y-m-d H:i:s' }}</font></a>
                                                                                 </li>
-                                                                                {% else %}
-                                                                                {% endif %}
-                                                                                {% endfor %}
+                                                                            {% endfor %}
                                                                         </ol>
                                                                     </li>
                                                                     {% endfor %}
