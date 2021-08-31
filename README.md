@@ -61,4 +61,4 @@ python3 manage.py runserver 127.0.0.1:8000
 ![](./img/2.png)
 
 ### 六、关于我们
-<img src="./img/3.jpeg" width="30%"><img src="./img/5.jpeg" width="30%">
+<img src="./img/3.jpeg" width="30%"><img src="./img/6.jpeg" width="30%">
