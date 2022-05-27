@@ -916,7 +916,7 @@ def download_tool(request,tool_id):
                             break
 
             tool = Tool.objects.get(id=int(tool_id))
-            response = StreamingHttpResponse(file_iterator(BASE_DIR + tool.path.split('/zslibrary')[-1]))
+            response = StreamingHttpResponse(file_iterator(tool.path))
             response['Content-Type'] = 'application/octet-stream'
             response['Content-Disposition'] = 'attachment;filename="' + tool.path.split('/')[-1].encode("utf-8").decode("ISO-8859-1") + '"'
             return response
